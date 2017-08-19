@@ -14,8 +14,11 @@ public class DrawTest {
 		CardDrawer c = new CardDrawer();
 		List<Card> deck = DeckGenerator.getDeck(Rank.values(), Suit.values());
 		for (Card card : deck) {
-			System.out.println(c.draw(card));
+			System.out.println(c.drawFace(card));
 		}
+		System.out.println(c.drawBack());
 	}
+	
+
 
 }

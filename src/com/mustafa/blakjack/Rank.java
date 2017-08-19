@@ -20,10 +20,16 @@ public enum Rank {
 	KING(new int[]{10}),
 	ACE(new int[]{11,1});
 	
-	int[] value;
+	private int[] value;
 
 	private Rank(int[] value) {
 		this.value = value;
 	}
+
+	public int[] getValue() {
+		return value;
+	}
+	
+	
 	
 }

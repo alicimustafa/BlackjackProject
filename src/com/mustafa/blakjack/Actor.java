@@ -4,7 +4,6 @@ public interface Actor {
 	
 	int makeMove();
 	GameHand showHand();
-	int getScore();
-	int getSoftScore();
-
+	void  takeCard();
+	
 }

@@ -1,31 +1,32 @@
 package com.mustafa.blakjack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameHand {
 	List<Card> hand;
-	
+
 	public GameHand() {
-		
+		hand = new ArrayList<>();
 	}
 
 	public List<Card> getHand() {
 		return hand;
 	}
-	
+
 	public void addCard(Card card) {
-		
+		hand.add(card);
 	}
-	
+
 	public int getValueOfHand() {
 		int value = 0;
-		
+
 		return value;
 	}
-	
+
 	public int getSoftValue() {
 		int value = 0;
-		
+
 		return value;
 	}
 
@@ -62,6 +63,5 @@ public class GameHand {
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
+
 }
