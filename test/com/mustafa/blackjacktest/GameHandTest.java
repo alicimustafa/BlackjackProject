@@ -56,11 +56,11 @@ public class GameHandTest {
 	}
 	
 	@Test
-	public void test_getSoftValueOfHand_check_if_value_correct() {
+	public void test_getSoftValue_check_if_value_correct() {
 		gh.addCard(c1);
 		gh.addCard(c2);
 		gh.addCard(c3);
-		assertEquals(16, gh.getValueOfHand());
+		assertEquals(16, gh.getSoftValue());
 		
 	}
 

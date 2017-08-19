@@ -4,22 +4,28 @@ public class Player implements Actor {
 	
 	private GameHand hand;
 
+	
+	
+	public Player() {
+		super();
+		hand = new GameHand();
+	}
+
 	@Override
 	public int makeMove() {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
-	public GameHand showHand() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void takeCard() {
-		// TODO Auto-generated method stub
+	public void takeCard(Card card) {
+		
 		
 	}
 
+	public GameHand getHand() {
+		return hand;
+	}
+	
+	
 }

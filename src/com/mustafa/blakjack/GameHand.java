@@ -20,13 +20,18 @@ public class GameHand {
 
 	public int getValueOfHand() {
 		int value = 0;
+		for (Card card : hand) {
+			value += card.getRank().getValue()[0];
+		}
 
 		return value;
 	}
 
 	public int getSoftValue() {
 		int value = 0;
-
+		for (Card card : hand) {
+			value += card.getRank().ordinal() == 12 ? card.getRank().getValue()[1]: card.getRank().getValue()[0];
+		}
 		return value;
 	}
 
