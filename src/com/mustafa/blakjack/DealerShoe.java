@@ -3,11 +3,23 @@ package com.mustafa.blakjack;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author mustafaalici
+ * for holding one or more deck of cards
+ * they get stord int cardDeck arrayList
+ * delta represents 25% of cards
+ * so the deck can be shuffled again
+ *
+ */
 public class DealerShoe {
 	
 	private List<Card> cardDeck;
 	private int delta;
 	
+	/**
+	 * @param this the constructor that get a arrayList of card
+	 * to initialize the internal deck and sets the delta to 25%
+	 */
 	public DealerShoe(List<Card> setDecks) {
 		cardDeck = setDecks;
 		this.delta = cardDeck.size() / 4;
@@ -21,9 +33,18 @@ public class DealerShoe {
 		return cardDeck;
 	}
 
+	/**
+	 * shuffles the deck
+	 */
 	public void shuffleDeck() {
 		Collections.shuffle(cardDeck);
 	}
+	/**
+	 * 
+	 * removes a card from internal arrayList
+	 * and returns it
+	 * @return Card
+	 */
 	public Card drawCard() {
 		return cardDeck.remove(0);
 	}

@@ -1,7 +1,19 @@
 package com.mustafa.blakjack;
 
+/**
+ * @author mustafaalici
+ * 
+ * this class renders a nice ascii art
+ * for card
+ *
+ */
 public class CardDrawer {
 	
+	/**
+	 * @param card is Card object
+	 * @return String that holds
+	 * the ascii art for card
+	 */
 	public String draw(Card card) {
 		int ord =card.getRank().ordinal();
 		String dis; 

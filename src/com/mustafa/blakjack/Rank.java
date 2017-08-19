@@ -1,5 +1,10 @@
 package com.mustafa.blakjack;
 
+/**
+ * @author mustafaalici
+ * enum holds the rank for the cards
+ * and values
+ */
 public enum Rank {
 	TWO(new int[]{2}),
 	THREE(new int[]{3}),
