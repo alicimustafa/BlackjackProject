@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Player implements Actor {
 	
 	private GameHand hand;
-	String name;
+	private String name;
 
 	public Player(String name) {
 		super();
@@ -37,6 +37,10 @@ public class Player implements Actor {
 
 	public GameHand getHand() {
 		return hand;
+	}
+
+	public String getName() {
+		return name;
 	}
 	
 	

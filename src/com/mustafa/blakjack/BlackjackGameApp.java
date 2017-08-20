@@ -54,8 +54,19 @@ public class BlackjackGameApp {
 	}
 	
 	public void drawBoard() {
+		CardDrawer draw = new CardDrawer();
 		System.out.println("Dealer");
-		System.out.println();
+		System.out.println(draw.drawFace(dealer.getHand().getHand(), true));
+		for (Player player : palayers) {
+			System.out.println("Player: " + player.getName());
+			System.out.println(draw.drawFace(player.getHand().getHand(), false));
+		}
+	}
+	
+	public boolean checkIfPlayerBeatDealer(Player player) {
+		int dealerScore = dealer.getHand().getValueOfHand() > 21 ? dealer.getHand().getSoftValue() :dealer.getHand().getValueOfHand() ;
+		int playerScore = player.getHand().getValueOfHand() > 21 ? player.getHand().getSoftValue() :player.getHand().getValueOfHand() ;
+		return playerScore > dealerScore;
 	}
 
 }
