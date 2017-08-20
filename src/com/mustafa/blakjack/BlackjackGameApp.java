@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class BlackjackGameApp {
 
-	List<Player> palayers;
+	List<Player> players;
 	Dealer dealer;
 	DealerShoe shoe;
 
@@ -39,10 +39,11 @@ public class BlackjackGameApp {
 	 *            main app it fill the dealer shoe with card and suffles it
 	 */
 	public BlackjackGameApp(int numDecks) {
-		palayers = new ArrayList<>();
+		players = new ArrayList<>();
 		dealer = new Dealer();
 		List<Card> setDecks = DeckGenerator.getDeck(Rank.values(), Suit.values(), numDecks);
 		shoe = new DealerShoe(setDecks);
+		shoe.shuffleDeck();
 		shoe.shuffleDeck();
 	}
 
@@ -53,43 +54,71 @@ public class BlackjackGameApp {
 	 *            this stars the whole thing generating player
 	 */
 	public void gameStart(int playerNum, Scanner keyboard) {
+		int[] playerScoreArr = new int[playerNum];
 		for (int i = 0; i < playerNum; i++) {
 			System.out.println("Enter player" + (i + 1));
 			System.out.print("Name: ");
 			String name = keyboard.next();
-			this.palayers.add(new Player(name));
+			this.players.add(new Player(name));
 		}
 		for (int i = 0; i < 2; i++) {
-			for (Player player : palayers) {
+			for (Player player : players) {
 				player.takeCard(shoe.drawCard());
 			}
 			dealer.takeCard(shoe.drawCard());
 		}
 		drawBoard();
+		for (int i = 0; i < players.size(); i++) {
+			System.out.println(players.get(i).getName() + " this is your turn");
+			playerScoreArr[i] = runPlayerTurn(players.get(i));
+			String message = playerScoreArr[i] == 1 ? "You got Blackjack" 
+					: playerScoreArr[i] == -1 ? "Sorry you Busted" : "You Stayed";
+			System.out.println(message);
+		}
+		int dealerResult = runPlayerTurn(dealer);
+		for(int i = 0; i < players.size(); i ++) {
+			
+		}
 
 	}
 
-	public boolean  runPlayerTurn(Player player) {
+	/**
+	 * @param player player's turn being run or the dealer
+	 * @return returns -1 if players bust 1 if player hits blackjack 0 if neither
+ 	 * first checks if player has blackjack if not gets player move checks for bust
+ 	 * ask again till player stays.
+	 */
+	public int runPlayerTurn(Actor player) {
 		CardDrawer draw = new CardDrawer();
 		int playerResponse = 1;
-		System.out.println(player.getName() + " this is your turn");
+		int playerCard1 = player.getHand().getHand().get(0).getRank().getValue()[0];
+		int playerCard2 = player.getHand().getHand().get(1).getRank().getValue()[0];
+		
+		if(playerCard1 + playerCard2 == 21) {
+			return 1;
+		}
+		
 		do {
-			System.out.println("Dealer");
-			System.out.println(draw.drawFace(dealer.getHand().getHand(), true));
-			System.out.println(player.getName());
-			System.out.println(draw.drawFace(player.getHand().getHand(), true));
+			System.out.println(draw.drawFace(player.getHand().getHand(), false));
 			playerResponse = player.makeMove();
 			if(playerResponse == 1) {
 				player.takeCard(shoe.drawCard());
-				
+				if(checkIfPlayerBust(player)) {
+					draw.drawFace(player.getHand().getHand(), false);
+					return -1;
+				}
 			}
 			
 		} while (playerResponse == 1);
-		return true;
+		return 0;
 
 	}
 	
-	public boolean checkIfPlayerBust(Player player) {
+	/**
+	 * @param player player being tested
+	 * @return if the player over 21 he bust out of game
+	 */
+	public boolean checkIfPlayerBust(Actor player) {
 		int playerScore = player.getHand().getValueOfHand() > 21 ? player.getHand().getSoftValue()
 				: player.getHand().getValueOfHand();
 		return playerScore > 21;
@@ -103,7 +132,7 @@ public class BlackjackGameApp {
 		CardDrawer draw = new CardDrawer();
 		System.out.println("Dealer");
 		System.out.println(draw.drawFace(dealer.getHand().getHand(), true));
-		for (Player player : palayers) {
+		for (Player player : players) {
 			System.out.println("Player: " + player.getName());
 			System.out.println(draw.drawFace(player.getHand().getHand(), false));
 		}
@@ -123,7 +152,7 @@ public class BlackjackGameApp {
 	}
 
 	public List<Player> getPalayers() {
-		return palayers;
+		return players;
 	}
 
 	public Dealer getDealer() {

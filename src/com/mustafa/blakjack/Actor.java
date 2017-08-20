@@ -4,5 +4,6 @@ public interface Actor {
 	
 	int makeMove();
 	void  takeCard(Card card);
+	GameHand getHand();
 	
 }

@@ -18,15 +18,15 @@ public class Player implements Actor {
 	public int makeMove() {
 		Scanner keyboard = new Scanner(System.in);
 		int input = 0;
-		System.out.println("Make your move (1)Hit or (2)Stay ");
+		
 		do {
 			try {
+				System.out.println("Make your move (1)Hit or (2)Stay ");
 				input = keyboard.nextInt();
 			} catch (InputMismatchException e) {
 				
 			}
 		} while (input < 1 || input > 2);
-		keyboard.close();
 		return input;
 	}
 
