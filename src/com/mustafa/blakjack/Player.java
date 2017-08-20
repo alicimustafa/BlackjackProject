@@ -42,6 +42,17 @@ public class Player implements Actor {
 	public String getName() {
 		return name;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Player [hand=");
+		builder.append(hand);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 	
 }

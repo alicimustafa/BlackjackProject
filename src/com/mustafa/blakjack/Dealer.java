@@ -29,4 +29,15 @@ public class Dealer implements Actor {
 		return hand;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Dealer [hand=");
+		builder.append(hand);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+
 }

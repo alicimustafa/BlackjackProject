@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class CardDrawer {
 	
-	StringBuilder builder = new StringBuilder();
+	
 	
 	/**
 	 * @param card is Card object
@@ -19,6 +19,7 @@ public class CardDrawer {
 	 * the ascii art for card
 	 */
 	public String drawFace(List<Card> cards, boolean dealer) {
+		StringBuilder builder = new StringBuilder();
 		int size = cards.size();
 		String dis;
 		int ord; 
