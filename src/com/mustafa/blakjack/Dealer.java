@@ -13,7 +13,7 @@ public class Dealer implements Actor {
 		if(hand.getHand().get(0).getRank().getValue()[0] + hand.getHand().get(1).getRank().getValue()[0] == 21) {
 			return 0;
 		}
-		if(hand.getValueOfHand() <= 17 || hand.getSoftValue() < 18) {
+		if(hand.getValueOfHand() <= 17 && hand.getSoftValue() <= 17) {
 			return 1;
 		}
 		return 0;

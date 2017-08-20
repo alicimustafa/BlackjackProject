@@ -76,8 +76,33 @@ public class BlackjackGameApp {
 			System.out.println(message);
 		}
 		int dealerResult = runPlayerTurn(dealer);
+		if(dealerResult == 1) {
+			System.out.println("dealer got blackjack");
+		}
 		for(int i = 0; i < players.size(); i ++) {
-			
+			switch(playerScoreArr[i]) {
+			case 1:
+				if(dealerResult ==1) {
+					System.out.println("Player "+ players.get(i).getName()+ " you tied dealer with blackjac ");
+				} else {
+					System.out.println("you won with blackjack");
+				}
+				break;
+			case 0:
+				if(dealerResult ==1) {
+					System.out.println("Player "+ players.get(i).getName()+ " Sorry dealer beat you with blackjack ");
+				} else {
+					if(checkIfPlayerBeatDealer(players.get(i))) {
+						System.out.println("You beat the dealer");
+					} else {
+						System.out.println("The dealer beat you");
+					}
+				}
+				break;
+			case -1:
+				System.out.println("Player "+ players.get(i).getName()+ " Sorry you busted ");
+				break;
+			}
 		}
 
 	}
@@ -104,7 +129,7 @@ public class BlackjackGameApp {
 			if(playerResponse == 1) {
 				player.takeCard(shoe.drawCard());
 				if(checkIfPlayerBust(player)) {
-					draw.drawFace(player.getHand().getHand(), false);
+					System.out.println(draw.drawFace(player.getHand().getHand(), false));
 					return -1;
 				}
 			}
@@ -119,6 +144,7 @@ public class BlackjackGameApp {
 	 * @return if the player over 21 he bust out of game
 	 */
 	public boolean checkIfPlayerBust(Actor player) {
+		
 		int playerScore = player.getHand().getValueOfHand() > 21 ? player.getHand().getSoftValue()
 				: player.getHand().getValueOfHand();
 		return playerScore > 21;
