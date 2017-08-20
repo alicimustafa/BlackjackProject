@@ -119,5 +119,33 @@ public class BlackjackGameAppTest {
 		p.takeCard(c2);
 		assertTrue(bj.checkIfPlayerBeatDealer(p));
 	}
+	@Test
+	public void test_checkIfPlayerBust_if_score_more21_not_soft_score() {
+		Player p = new Player("j");
+		
+		p.takeCard(c10);
+		p.takeCard(cA);
+		p.takeCard(c2);
+		assertFalse(bj.checkIfPlayerBust(p));
+	}
+	@Test
+	public void test_checkIfPlayerBust_if_score_lest21() {
+		Player p = new Player("j");
+		
+		p.takeCard(c10);
+		p.takeCard(c6);
+		p.takeCard(c2);
+		assertFalse(bj.checkIfPlayerBust(p));
+	}
+	@Test
+	public void test_checkIfPlayerBust_if_score_more21_and_soft_score_over21() {
+		Player p = new Player("j");
+		
+		p.takeCard(c10);
+		p.takeCard(c8);
+		p.takeCard(c5);
+		assertTrue(bj.checkIfPlayerBust(p));
+	}
+	
 
 }
