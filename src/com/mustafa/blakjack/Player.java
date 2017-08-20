@@ -8,9 +8,10 @@ public class Player implements Actor {
 	private GameHand hand;
 	String name;
 
-	public Player() {
+	public Player(String name) {
 		super();
 		hand = new GameHand();
+		this.name = name;
 	}
 
 	@Override

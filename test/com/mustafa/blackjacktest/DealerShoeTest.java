@@ -20,7 +20,7 @@ public class DealerShoeTest {
 
 	@Before
 	public void setUp() throws Exception {
-		ds = new DealerShoe(DeckGenerator.getDeck(Rank.values(), Suit.values()));
+		ds = new DealerShoe(DeckGenerator.getDeck(Rank.values(), Suit.values(), 1));
 	}
 
 	@After
