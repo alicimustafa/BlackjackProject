@@ -13,7 +13,9 @@ public class Dealer implements Actor {
 		if(hand.getHand().get(0).getRank().getValue()[0] + hand.getHand().get(1).getRank().getValue()[0] == 21) {
 			return 0;
 		}
-		if(hand.getValueOfHand() <= 17 && hand.getSoftValue() <= 17) {
+		if(hand.getValueOfHand() == 17 && deckHasAce()) {
+			return 0;
+		} else if(hand.getValueOfHand() < 17) {
 			return 1;
 		}
 		return 0;
@@ -23,6 +25,16 @@ public class Dealer implements Actor {
 	public void takeCard(Card card) {
 		hand.addCard(card);
 
+	}
+	
+	public boolean deckHasAce() {
+		boolean ace = false;
+		for(Card card: hand.getHand()) {
+			if(card.getRank().ordinal() == 12) {
+				ace = true;
+			}
+		}
+		return ace;
 	}
 
 	public GameHand getHand() {

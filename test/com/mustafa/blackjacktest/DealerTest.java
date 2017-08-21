@@ -54,5 +54,22 @@ public class DealerTest {
 		d.takeCard(c6);
 		assertEquals(1 , d.makeMove());
 	}
+	
+	@Test
+	public void test_deckHasAce_shows_if_there_is_ace() {
+		d.takeCard(c1);
+		d.takeCard(c6);
+		d.takeCard(c4);
+		assertTrue(d.deckHasAce());
+	}
+	
+	@Test
+	public void test_deckHasAce_shows_no_ace() {
+		d.takeCard(c2);
+		d.takeCard(c6);
+		d.takeCard(c4);
+		assertFalse(d.deckHasAce());
+		
+	}
 
 }

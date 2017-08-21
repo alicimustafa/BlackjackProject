@@ -1,6 +1,7 @@
 package com.mustafa.blakjack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -71,80 +72,82 @@ public class BlackjackGameApp {
 		for (int i = 0; i < players.size(); i++) {
 			System.out.println(players.get(i).getName() + " this is your turn");
 			playerScoreArr[i] = runPlayerTurn(players.get(i));
-			String message = playerScoreArr[i] == 1 ? "You got Blackjack" 
+			String message = playerScoreArr[i] == 1 ? "You got Blackjack"
 					: playerScoreArr[i] == -1 ? "Sorry you Busted" : "You Stayed";
 			System.out.println(message);
 		}
 		int dealerResult = runPlayerTurn(dealer);
-		if(dealerResult == 1) {
-			System.out.println("dealer got blackjack");
-		}
-		for(int i = 0; i < players.size(); i ++) {
-			switch(playerScoreArr[i]) {
+
+		for (int i = 0; i < players.size(); i++) {
+
+			switch (dealerResult) {
 			case 1:
-				if(dealerResult ==1) {
-					System.out.println("Player "+ players.get(i).getName()+ " you tied dealer with blackjac ");
+				if (playerScoreArr[i] == 1) {
+					System.out.println("Player " + players.get(i).getName() + " you tied dealer with blackjac ");
 				} else {
-					System.out.println("you won with blackjack");
+					System.out.println("Player " + players.get(i).getName() + " Sorry dealer beat you with blackjack ");
 				}
 				break;
 			case 0:
-				if(dealerResult ==1) {
-					System.out.println("Player "+ players.get(i).getName()+ " Sorry dealer beat you with blackjack ");
+				if (playerScoreArr[i] == -1) {
+					System.out.println("Player " + players.get(i).getName() + " Sorry you busted ");
+				} else if (checkIfPlayerBeatDealer(players.get(i))) {
+					System.out.println("Player " + players.get(i).getName() + " you beat the dealer");
 				} else {
-					if(checkIfPlayerBeatDealer(players.get(i))) {
-						System.out.println("You beat the dealer");
-					} else {
-						System.out.println("The dealer beat you");
-					}
+					System.out.println("Player " + players.get(i).getName() + " the dealer beat you");
 				}
 				break;
 			case -1:
-				System.out.println("Player "+ players.get(i).getName()+ " Sorry you busted ");
+				if (playerScoreArr[i] == -1) {
+					System.out.println("Player " + players.get(i).getName() + " Sorry you busted ");
+				} else {
+					System.out.println("Player " + players.get(i).getName() + " won dealer busted you win");
+				}
 				break;
 			}
 		}
-
 	}
 
 	/**
-	 * @param player player's turn being run or the dealer
+	 * @param player
+	 *            player's turn being run or the dealer
 	 * @return returns -1 if players bust 1 if player hits blackjack 0 if neither
- 	 * first checks if player has blackjack if not gets player move checks for bust
- 	 * ask again till player stays.
+	 *         first checks if player has blackjack if not gets player move checks
+	 *         for bust ask again till player stays.
 	 */
 	public int runPlayerTurn(Actor player) {
 		CardDrawer draw = new CardDrawer();
 		int playerResponse = 1;
 		int playerCard1 = player.getHand().getHand().get(0).getRank().getValue()[0];
 		int playerCard2 = player.getHand().getHand().get(1).getRank().getValue()[0];
-		
-		if(playerCard1 + playerCard2 == 21) {
+
+		if (playerCard1 + playerCard2 == 21) {
 			return 1;
 		}
-		
+
 		do {
 			System.out.println(draw.drawFace(player.getHand().getHand(), false));
 			playerResponse = player.makeMove();
-			if(playerResponse == 1) {
+			if (playerResponse == 1) {
 				player.takeCard(shoe.drawCard());
-				if(checkIfPlayerBust(player)) {
+				if (checkIfPlayerBust(player)) {
 					System.out.println(draw.drawFace(player.getHand().getHand(), false));
 					return -1;
 				}
 			}
-			
+
 		} while (playerResponse == 1);
 		return 0;
 
 	}
-	
+
 	/**
-	 * @param player player being tested
+	 * @param player
+	 *            player being tested
 	 * @return if the player over 21 he bust out of game
 	 */
 	public boolean checkIfPlayerBust(Actor player) {
-		
+
 		int playerScore = player.getHand().getValueOfHand() > 21 ? player.getHand().getSoftValue()
 				: player.getHand().getValueOfHand();
 		return playerScore > 21;
@@ -165,8 +168,9 @@ public class BlackjackGameApp {
 	}
 
 	/**
-	 * @param player  player being compared
-	 *           
+	 * @param player
+	 *            player being compared
+	 * 
 	 * @return if the player won or not
 	 */
 	public boolean checkIfPlayerBeatDealer(Player player) {
