@@ -34,6 +34,11 @@ public class GameHand {
 		}
 		return value;
 	}
+	
+	public boolean checkIfPlayerBust() {
+		int playerScore = getValueOfHand() > 21 ? getSoftValue() : getValueOfHand();
+		return playerScore > 21;
+	}
 
 	@Override
 	public int hashCode() {

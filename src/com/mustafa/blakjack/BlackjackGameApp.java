@@ -78,33 +78,60 @@ public class BlackjackGameApp {
 		int dealerResult = runPlayerTurn(dealer);
 
 		for (int i = 0; i < players.size(); i++) {
-
-			switch (dealerResult) {
+			switch (playerScoreArr[i]) {
 			case 1:
-				if (playerScoreArr[i] == 1) {
-					System.out.println("Player " + players.get(i).getName() + " you tied dealer with blackjac ");
-				} else {
-					System.out.println("Player " + players.get(i).getName() + " Sorry dealer beat you with blackjack ");
-				}
 				break;
 			case 0:
-				if (playerScoreArr[i] == -1) {
-					System.out.println("Player " + players.get(i).getName() + " Sorry you busted ");
-				} else if (checkIfPlayerBeatDealer(players.get(i))) {
-					System.out.println("Player " + players.get(i).getName() + " you beat the dealer");
-				} else {
-					System.out.println("Player " + players.get(i).getName() + " the dealer beat you");
-				}
 				break;
 			case -1:
-				if (playerScoreArr[i] == -1) {
-					System.out.println("Player " + players.get(i).getName() + " Sorry you busted ");
-				} else {
-					System.out.println("Player " + players.get(i).getName() + " won dealer busted you win");
-				}
+
 				break;
 			}
+			// switch (dealerResult) {
+			// case 1:
+			// if (playerScoreArr[i] == 1) {
+			// System.out.println("Player " + players.get(i).getName() + " you tied dealer
+			// with blackjac ");
+			// } else {
+			// System.out.println("Player " + players.get(i).getName() + " Sorry dealer beat
+			// you with blackjack ");
+			// }
+			// break;
+			// case 0:
+			// if (playerScoreArr[i] == -1) {
+			// System.out.println("Player " + players.get(i).getName() + " Sorry you busted
+			// ");
+			// } else if (checkIfPlayerBeatDealer(players.get(i))) {
+			// System.out.println("Player " + players.get(i).getName() + " you beat the
+			// dealer");
+			// } else {
+			// System.out.println("Player " + players.get(i).getName() + " the dealer beat
+			// you");
+			// }
+			// break;
+			// case -1:
+			// if (playerScoreArr[i] == -1) {
+			// System.out.println("Player " + players.get(i).getName() + " Sorry you busted
+			// ");
+			// } else {
+			// System.out.println("Player " + players.get(i).getName() + " won dealer busted
+			// you win");
+			// }
+			// break;
+			// }
 		}
+	}
+
+	public List<Player> enterPlayerInfo(int numberPlayers, Scanner keyboard) {
+		List<Player> playerList = new ArrayList<>();
+		for(int i = 0; i < numberPlayers; i++) {
+			System.out.print("Enter player" + i + " name");
+			String name = keyboard.next();
+			System.out.print("Enter player" + i + " cash");
+			double cash = keyboard.nextDouble();
+			playerList.add(new Player(name));
+		}
+		return playerList;
 	}
 
 	/**

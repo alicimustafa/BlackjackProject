@@ -1,8 +1,7 @@
 package com.mustafa.blackjacktest;
 
-import static org.junit.Assert.*;
-
-import java.util.Scanner;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +17,6 @@ import com.mustafa.blakjack.Suit;
 public class BlackjackGameAppTest {
 	
 	BlackjackGameApp bj;
-	Scanner keyboard = new Scanner(System.in);
 	Card cA, cQ, c3, c4, c5, c6, c7, c8, c2, c10;
 
 	@Before
@@ -146,6 +144,4 @@ public class BlackjackGameAppTest {
 		p.takeCard(c5);
 		assertTrue(bj.checkIfPlayerBust(p));
 	}
-	
-
 }

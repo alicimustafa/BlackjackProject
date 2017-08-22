@@ -14,6 +14,13 @@ public class Player implements Actor {
 		hand = new GameHand();
 		this.name = name;
 	}
+	
+
+	public Player(String name, double cash) {
+		super();
+		this.name = name;
+		this.cash = cash;
+	}
 
 	@Override
 	public int makeMove() {

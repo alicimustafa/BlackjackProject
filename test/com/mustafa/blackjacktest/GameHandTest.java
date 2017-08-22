@@ -14,54 +14,88 @@ import com.mustafa.blakjack.Suit;
 public class GameHandTest {
 	
 	GameHand gh;
-	Card c1, c2, c3;
+	Card cA, c5, cJ, c3, c8;
 	
 	@Before
 	public void setUp() throws Exception {
 		gh = new GameHand();
-		c1 = new Card(Suit.CLUB, Rank.ACE);
-		c2 = new Card(Suit.CLUB, Rank.FIVE);
-		c3 = new Card(Suit.CLUB, Rank.JACK);
+		cA = new Card(Suit.CLUB, Rank.ACE);
+		c5 = new Card(Suit.CLUB, Rank.FIVE);
+		cJ = new Card(Suit.CLUB, Rank.JACK);
+		c3 = new Card(Suit.CLUB, Rank.THREE);
+		c8 = new Card(Suit.CLUB, Rank.EIGHT);
 		
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		gh = null;
-		c1 = null;
-		c2 = null;
+		cA = null;
+		c5 = null;
+		cJ = null;
 		c3 = null;
+		c8 = null;
 	}
 
 	@Test
 	public void test_GameHand_to_see_if_cards_get_added() {
-		gh.addCard(c1);
+		gh.addCard(cA);
 		assertEquals( 1 ,gh.getHand().size());
-		assertEquals( c1 ,gh.getHand().get(0));
-		gh.addCard(c2);
+		assertEquals( cA ,gh.getHand().get(0));
+		gh.addCard(c5);
 		assertEquals( 2 ,gh.getHand().size());
-		assertEquals( c2 , gh.getHand().get(1));
-		gh.addCard(c3);
+		assertEquals( c5 , gh.getHand().get(1));
+		gh.addCard(cJ);
 		assertEquals( 3 ,gh.getHand().size());
-		assertEquals( c3 ,gh.getHand().get(2));
+		assertEquals( cJ ,gh.getHand().get(2));
 	}
 	
 	@Test
 	public void test_getValueOfHand_check_if_value_correct() {
-		gh.addCard(c1);
-		gh.addCard(c2);
-		gh.addCard(c3);
+		gh.addCard(cA);
+		gh.addCard(c5);
+		gh.addCard(cJ);
 		assertEquals(26, gh.getValueOfHand());
 		
 	}
 	
 	@Test
 	public void test_getSoftValue_check_if_value_correct() {
-		gh.addCard(c1);
-		gh.addCard(c2);
-		gh.addCard(c3);
+		gh.addCard(cA);
+		gh.addCard(c5);
+		gh.addCard(cJ);
 		assertEquals(16, gh.getSoftValue());
 		
+	}
+	
+	@Test 
+	public void test_checkIfPlayerBust_should_return_true_total_above_21_without_ace() {
+		gh.addCard(cJ);
+		gh.addCard(c5);
+		gh.addCard(c8);
+		assertTrue(gh.checkIfPlayerBust());
+	}
+	@Test 
+	public void test_checkIfPlayerBust_should_return_true_total_above_21_with_ace() {
+		gh.addCard(cJ);
+		gh.addCard(c5);
+		gh.addCard(c8);
+		gh.addCard(cA);
+		assertTrue(gh.checkIfPlayerBust());
+	}
+	@Test 
+	public void test_checkIfPlayerBust_should_return_false_total_under_21_with_ace() {
+		gh.addCard(cJ);
+		gh.addCard(c5);
+		gh.addCard(cA);
+		assertFalse(gh.checkIfPlayerBust());
+	}
+	@Test 
+	public void test_checkIfPlayerBust_should_return_false_total_under_21_without_ace() {
+		gh.addCard(cJ);
+		gh.addCard(c5);
+		gh.addCard(c3);
+		assertFalse(gh.checkIfPlayerBust());
 	}
 
 }
