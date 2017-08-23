@@ -18,19 +18,9 @@ public class BlackjackGameApp {
 		Scanner keyboard = new Scanner(System.in);
 		BlackjackGameApp game = new BlackjackGameApp(4);
 		System.out.println("Welcome to Black Jack");
+		//game.gameStart(keyboard);
 
-		int input = 0;
-		do {
-			try {
-				System.out.println("How many players (1-6)");
-				input = keyboard.nextInt();
-			} catch (InputMismatchException e) {
-				System.out.println("you must enter a number");
-				keyboard.nextLine();
-			}
-
-		} while (input < 1 || input > 6);
-		game.gameStart(input, keyboard);
+		
 	}
 
 	/**
@@ -121,17 +111,55 @@ public class BlackjackGameApp {
 			// }
 		}
 	}
+	public void displayIntro() {
+		System.out.println("**************************************");
+		System.out.println("\u2664\u2667\u2661\u2662  Welcome to Blackjack  \u2664\u2667\u2661\u2662");
+		System.out.println("**************************************");
+	}
 
 	public List<Player> enterPlayerInfo(int numberPlayers, Scanner keyboard) {
 		List<Player> playerList = new ArrayList<>();
+		System.out.println("Enter player name and starting Cash");
 		for(int i = 0; i < numberPlayers; i++) {
 			System.out.print("Enter player" + i + " name");
 			String name = keyboard.next();
 			System.out.print("Enter player" + i + " cash");
 			double cash = keyboard.nextDouble();
-			playerList.add(new Player(name));
+			playerList.add(new Player(name, cash));
 		}
 		return playerList;
+	}
+	
+	public int askHowManyPlayers(Scanner keyboard) {
+		int input = 0;
+		do {
+			try {
+				System.out.println("How many players (1-6)");
+				input = keyboard.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("you must enter a number");
+				keyboard.nextLine();
+			}
+
+		} while (input < 1 || input > 6);
+		
+		return input;
+	}
+	
+	public int askDeckSizeOfShoe(Scanner keyboard) {
+		int input = 0;
+		do {
+			try {
+				System.out.println("How Many Decks in Dealer Shoe (1-8)");
+				input = keyboard.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("you must enter a number");
+				keyboard.nextLine();
+			}
+
+		} while (input < 1 || input > 8);
+		
+		return input;
 	}
 
 	/**
@@ -156,7 +184,7 @@ public class BlackjackGameApp {
 			playerResponse = player.makeMove();
 			if (playerResponse == 1) {
 				player.takeCard(shoe.drawCard());
-				if (checkIfPlayerBust(player)) {
+				if (player.getHand().checkIfPlayerBust()) {
 					System.out.println(draw.drawFace(player.getHand().getHand(), false));
 					return -1;
 				}
@@ -166,19 +194,7 @@ public class BlackjackGameApp {
 		return 0;
 
 	}
-
-	/**
-	 * @param player
-	 *            player being tested
-	 * @return if the player over 21 he bust out of game
-	 */
-	public boolean checkIfPlayerBust(Actor player) {
-
-		int playerScore = player.getHand().getValueOfHand() > 21 ? player.getHand().getSoftValue()
-				: player.getHand().getValueOfHand();
-		return playerScore > 21;
-	}
-
+	
 	/**
 	 * this draws the ascii art for all of the player and dealer representing cards
 	 * 
