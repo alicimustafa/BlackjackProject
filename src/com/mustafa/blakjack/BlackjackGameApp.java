@@ -124,9 +124,25 @@ public class BlackjackGameApp {
 	}
 	
 	public void runGameTurn(List<Player> players, DealerShoe shoe, Scanner keyboard) {
-		
+		this.askPlayerBet(players, keyboard);
+		for (Player player : players) {
+			int i = runPlayerTurn(player);
+		}
 	}
 
+	public void askPlayerBet(List<Player> players, Scanner keyboard) {
+		for (Player player : players) {
+			double  input = 0.00;
+			do {
+				try {
+					System.out.println(player.getName() + " how much do you want ot bet");	
+				}catch(InputMismatchException e) {
+					System.out.println("You must enter a number");
+				}
+			}while(input > 0.00);
+			player.getHand().setBet(input);
+		}
+	}
 	public void displayIntro() {
 		System.out.println("**************************************");
 		System.out.println("\u2664\u2667\u2661\u2662  Welcome to Blackjack  \u2664\u2667\u2661\u2662");

@@ -44,9 +44,12 @@ public class GameHand {
 		return value;
 	}
 	
+	public int getActualScore() {
+		return getValueOfHand() > 21 ? getSoftValue() : getValueOfHand();
+	}
+	
 	public boolean checkIfPlayerBust() {
-		int playerScore = getValueOfHand() > 21 ? getSoftValue() : getValueOfHand();
-		return playerScore > 21;
+		return this.getActualScore() > 21;
 	}
 
 	@Override
