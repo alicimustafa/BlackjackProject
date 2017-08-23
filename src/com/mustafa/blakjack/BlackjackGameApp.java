@@ -10,40 +10,51 @@ import java.util.Scanner;
  */
 public class BlackjackGameApp {
 
-	List<Player> players;
-	Dealer dealer;
-	DealerShoe shoe;
 
 	public static void main(String[] args) {
 		Scanner keyboard = new Scanner(System.in);
-		BlackjackGameApp game = new BlackjackGameApp(4);
-		System.out.println("Welcome to Black Jack");
-		//game.gameStart(keyboard);
+		BlackjackGameApp game = new BlackjackGameApp();
+		game.gameStart(keyboard);
 
 		
 	}
 
-	/**
-	 * @param numDecks
-	 *            number of decks to be generated this is the constructor for the
-	 *            main app it fill the dealer shoe with card and suffles it
-	 */
-	public BlackjackGameApp(int numDecks) {
-		players = new ArrayList<>();
-		dealer = new Dealer();
-		List<Card> setDecks = DeckGenerator.getDeck(Rank.values(), Suit.values(), numDecks);
-		shoe = new DealerShoe(setDecks);
-		shoe.shuffleDeck();
-		shoe.shuffleDeck();
+	
+	public BlackjackGameApp() {
+		
 	}
 
-	/**
-	 * @param playerNum
-	 *            number players vs the dealer
-	 * @param keyboard
-	 *            this stars the whole thing generating player
-	 */
-	public void gameStart(int playerNum, Scanner keyboard) {
+	public void gameStart(Scanner keyboard) {
+		this.displayIntro();
+		int deckSize =  this.askDeckSizeOfShoe(keyboard);
+		DealerShoe shoe = new DealerShoe(DeckGenerator.getDeck(Rank.values(), Suit.values(), deckSize));
+		shoe.shuffleDeck();
+		List<Player> players = this.enterPlayerInfo(this.askHowManyPlayers(keyboard), keyboard);
+		String input = "";
+		do {
+			
+			System.out.println("Do you want to play again?");
+			System.out.println("(1) with the same player and shoe deck size");
+			System.out.println("(2) with the same player but diferent shoe deck size");
+			System.out.println("(3) with all new players and diferent shoe deck size");
+			System.out.println("(Q) Quit game");
+			input = keyboard.next();
+			switch(input) {
+			case "2":
+				deckSize =  this.askDeckSizeOfShoe(keyboard);
+				shoe = new DealerShoe(DeckGenerator.getDeck(Rank.values(), Suit.values(), deckSize));
+				shoe.shuffleDeck();
+				break;
+			case "3":
+				deckSize =  this.askDeckSizeOfShoe(keyboard);
+				shoe = new DealerShoe(DeckGenerator.getDeck(Rank.values(), Suit.values(), deckSize));
+				shoe.shuffleDeck();
+				players = this.enterPlayerInfo(this.askHowManyPlayers(keyboard), keyboard);
+				break;
+			}
+		} while(input.toLowerCase() != "Q");
+		System.out.println("\n\nThank you for playing Blackjack");
+		
 		int[] playerScoreArr = new int[playerNum];
 		for (int i = 0; i < playerNum; i++) {
 			System.out.println("Enter player" + (i + 1));
@@ -111,6 +122,11 @@ public class BlackjackGameApp {
 			// }
 		}
 	}
+	
+	public void runGameTurn(List<Player> players, DealerShoe shoe, Scanner keyboard) {
+		
+	}
+
 	public void displayIntro() {
 		System.out.println("**************************************");
 		System.out.println("\u2664\u2667\u2661\u2662  Welcome to Blackjack  \u2664\u2667\u2661\u2662");

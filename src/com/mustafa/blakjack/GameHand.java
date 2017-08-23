@@ -5,9 +5,18 @@ import java.util.List;
 
 public class GameHand {
 	private List<Card> hand;
+	private double bet;
 
 	public GameHand() {
 		hand = new ArrayList<>();
+	}
+
+	public double getBet() {
+		return bet;
+	}
+
+	public void setBet(double bet) {
+		this.bet = bet;
 	}
 
 	public List<Card> getHand() {
