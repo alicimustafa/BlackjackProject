@@ -24,12 +24,16 @@ public class BlackjackGameApp {
 		
 	}
 
+	/**
+	 * @param keyboard 
+	 */
 	public void gameStart(Scanner keyboard) {
 		this.displayIntro();
 		int deckSize =  this.askDeckSizeOfShoe(keyboard);
 		DealerShoe shoe = new DealerShoe(DeckGenerator.getDeck(Rank.values(), Suit.values(), deckSize));
 		shoe.shuffleDeck();
 		List<Player> players = this.enterPlayerInfo(this.askHowManyPlayers(keyboard), keyboard);
+		runGameTurn(players, shoe, keyboard);
 		String input = "";
 		do {
 			
@@ -40,54 +44,60 @@ public class BlackjackGameApp {
 			System.out.println("(Q) Quit game");
 			input = keyboard.next();
 			switch(input) {
+			case "1":
+				shoe = new DealerShoe(DeckGenerator.getDeck(Rank.values(), Suit.values(), deckSize));
+				shoe.shuffleDeck();
+				runGameTurn(players, shoe, keyboard);
 			case "2":
 				deckSize =  this.askDeckSizeOfShoe(keyboard);
 				shoe = new DealerShoe(DeckGenerator.getDeck(Rank.values(), Suit.values(), deckSize));
 				shoe.shuffleDeck();
+				runGameTurn(players, shoe, keyboard);
 				break;
 			case "3":
 				deckSize =  this.askDeckSizeOfShoe(keyboard);
 				shoe = new DealerShoe(DeckGenerator.getDeck(Rank.values(), Suit.values(), deckSize));
 				shoe.shuffleDeck();
 				players = this.enterPlayerInfo(this.askHowManyPlayers(keyboard), keyboard);
+				runGameTurn(players, shoe, keyboard);
 				break;
 			}
 		} while(input.toLowerCase() != "Q");
 		System.out.println("\n\nThank you for playing Blackjack");
 		
-		int[] playerScoreArr = new int[playerNum];
-		for (int i = 0; i < playerNum; i++) {
-			System.out.println("Enter player" + (i + 1));
-			System.out.print("Name: ");
-			String name = keyboard.next();
-			this.players.add(new Player(name));
-		}
-		for (int i = 0; i < 2; i++) {
-			for (Player player : players) {
-				player.takeCard(shoe.drawCard());
-			}
-			dealer.takeCard(shoe.drawCard());
-		}
-		drawBoard();
-		for (int i = 0; i < players.size(); i++) {
-			System.out.println(players.get(i).getName() + " this is your turn");
-			playerScoreArr[i] = runPlayerTurn(players.get(i));
-			String message = playerScoreArr[i] == 1 ? "You got Blackjack"
-					: playerScoreArr[i] == -1 ? "Sorry you Busted" : "You Stayed";
-			System.out.println(message);
-		}
-		int dealerResult = runPlayerTurn(dealer);
-
-		for (int i = 0; i < players.size(); i++) {
-			switch (playerScoreArr[i]) {
-			case 1:
-				break;
-			case 0:
-				break;
-			case -1:
-
-				break;
-			}
+//		int[] playerScoreArr = new int[playerNum];
+//		for (int i = 0; i < playerNum; i++) {
+//			System.out.println("Enter player" + (i + 1));
+//			System.out.print("Name: ");
+//			String name = keyboard.next();
+//			this.players.add(new Player(name));
+//		}
+//		for (int i = 0; i < 2; i++) {
+//			for (Player player : players) {
+//				player.takeCard(shoe.drawCard());
+//			}
+//			dealer.takeCard(shoe.drawCard());
+//		}
+//		drawBoard();
+//		for (int i = 0; i < players.size(); i++) {
+//			System.out.println(players.get(i).getName() + " this is your turn");
+//			playerScoreArr[i] = runPlayerTurn(players.get(i));
+//			String message = playerScoreArr[i] == 1 ? "You got Blackjack"
+//					: playerScoreArr[i] == -1 ? "Sorry you Busted" : "You Stayed";
+//			System.out.println(message);
+//		}
+//		int dealerResult = runPlayerTurn(dealer);
+//
+//		for (int i = 0; i < players.size(); i++) {
+//			switch (playerScoreArr[i]) {
+//			case 1:
+//				break;
+//			case 0:
+//				break;
+//			case -1:
+//
+//				break;
+//			}
 			// switch (dealerResult) {
 			// case 1:
 			// if (playerScoreArr[i] == 1) {
@@ -120,13 +130,13 @@ public class BlackjackGameApp {
 			// }
 			// break;
 			// }
-		}
+//		}
 	}
 	
 	public void runGameTurn(List<Player> players, DealerShoe shoe, Scanner keyboard) {
 		this.askPlayerBet(players, keyboard);
 		for (Player player : players) {
-			int i = runPlayerTurn(player);
+			int i = runPlayerTurn(player, shoe, keyboard);
 		}
 	}
 
@@ -201,7 +211,7 @@ public class BlackjackGameApp {
 	 *         first checks if player has blackjack if not gets player move checks
 	 *         for bust ask again till player stays.
 	 */
-	public int runPlayerTurn(Actor player) {
+	public int runPlayerTurn(Actor player , DealerShoe shoe, Scanner keyboard) {
 		CardDrawer draw = new CardDrawer();
 		int playerResponse = 1;
 		int playerCard1 = player.getHand().getHand().get(0).getRank().getValue()[0];
@@ -213,7 +223,7 @@ public class BlackjackGameApp {
 
 		do {
 			System.out.println(draw.drawFace(player.getHand().getHand(), false));
-			playerResponse = player.makeMove();
+			playerResponse = player.makeMove(keyboard);
 			if (playerResponse == 1) {
 				player.takeCard(shoe.drawCard());
 				if (player.getHand().checkIfPlayerBust()) {
@@ -231,15 +241,15 @@ public class BlackjackGameApp {
 	 * this draws the ascii art for all of the player and dealer representing cards
 	 * 
 	 */
-	public void drawBoard() {
-		CardDrawer draw = new CardDrawer();
-		System.out.println("Dealer");
-		System.out.println(draw.drawFace(dealer.getHand().getHand(), true));
-		for (Player player : players) {
-			System.out.println("Player: " + player.getName());
-			System.out.println(draw.drawFace(player.getHand().getHand(), false));
-		}
-	}
+//	public void drawBoard() {
+//		CardDrawer draw = new CardDrawer();
+//		System.out.println("Dealer");
+//		System.out.println(draw.drawFace(dealer.getHand().getHand(), true));
+//		for (Player player : players) {
+//			System.out.println("Player: " + player.getName());
+//			System.out.println(draw.drawFace(player.getHand().getHand(), false));
+//		}
+//	}
 
 	/**
 	 * @param player
@@ -247,24 +257,14 @@ public class BlackjackGameApp {
 	 * 
 	 * @return if the player won or not
 	 */
-	public boolean checkIfPlayerBeatDealer(Player player) {
-		int dealerScore = dealer.getHand().getValueOfHand() > 21 ? dealer.getHand().getSoftValue()
-				: dealer.getHand().getValueOfHand();
-		int playerScore = player.getHand().getValueOfHand() > 21 ? player.getHand().getSoftValue()
-				: player.getHand().getValueOfHand();
-		return playerScore > dealerScore;
-	}
+//	public boolean checkIfPlayerBeatDealer(Player player) {
+//		int dealerScore = dealer.getHand().getValueOfHand() > 21 ? dealer.getHand().getSoftValue()
+//				: dealer.getHand().getValueOfHand();
+//		int playerScore = player.getHand().getValueOfHand() > 21 ? player.getHand().getSoftValue()
+//				: player.getHand().getValueOfHand();
+//		return playerScore > dealerScore;
+//	}
 
-	public List<Player> getPalayers() {
-		return players;
-	}
-
-	public Dealer getDealer() {
-		return dealer;
-	}
-
-	public DealerShoe getShoe() {
-		return shoe;
-	}
+	
 
 }

@@ -1,5 +1,7 @@
 package com.mustafa.blakjack;
 
+import java.util.Scanner;
+
 public class Dealer implements Actor {
 	
 	GameHand hand;
@@ -9,7 +11,7 @@ public class Dealer implements Actor {
 	}
 
 	@Override
-	public int makeMove() {
+	public int makeMove(Scanner keyboard) {
 		if(hand.getHand().get(0).getRank().getValue()[0] + hand.getHand().get(1).getRank().getValue()[0] == 21) {
 			return 0;
 		}

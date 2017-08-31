@@ -23,8 +23,7 @@ public class Player implements Actor {
 	}
 
 	@Override
-	public int makeMove() {
-		Scanner keyboard = new Scanner(System.in);
+	public int makeMove(Scanner keyboard) {
 		int input = 0;
 		
 		do {
